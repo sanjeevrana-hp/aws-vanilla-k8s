@@ -1,0 +1,18 @@
+---
+- hosts: master
+  user: rana
+  become: yes
+  become_user: root
+  become_method: sudo
+  gather_facts: yes
+
+  tasks:
+      - name: run the initialization script
+        command: /var/tmp/install_master.sh
+
+      - name: Generate join command
+        command: kubeadm token create --print-join-command
+        register: join_command
+
+      - name: Copy join command to local file
+        local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"

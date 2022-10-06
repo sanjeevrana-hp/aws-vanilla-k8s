@@ -67,7 +67,7 @@ resource "aws_instance" "k8s" {
   instance_type   = var.instance_type
   count           = 2
   key_name        = "${var.name}-${random_pet.username.id}-KeyPair"
-  security_groups = aws_security_group.allow-all-security-group.id
+  security_groups = ["{aws_security_group.allow-all-security-group.id}"]
   root_block_device {
     volume_size           = "50"
     delete_on_termination = "true"
