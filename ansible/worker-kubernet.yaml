@@ -1,6 +1,6 @@
 ---
 - hosts: worker
-  user: rana
+  user: ubuntu
   become: yes
   become_user: ubuntu
   become_method: sudo

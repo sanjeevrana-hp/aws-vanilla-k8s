@@ -1,6 +1,6 @@
 ---
 - hosts: master
-  user: rana
+  user: ubuntu
   become: yes
   become_user: root
   become_method: sudo
