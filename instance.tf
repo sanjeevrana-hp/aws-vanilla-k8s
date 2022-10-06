@@ -1,4 +1,4 @@
-
+###### Generating Random username/password ##########
 # Creating two random password for username and Password
 resource "random_pet" "username" {
   length = 2
@@ -63,11 +63,16 @@ resource "local_file" "KeyPair_File" {
 
 ####### CREATING THE EC2 Compute ###########
 resource "aws_instance" "k8s" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
-  count         = 2
-  key_name      = "${var.name}-${random_pet.username.id}-KeyPair"
-  user_data     = <<EOF
+  ami             = data.aws_ami.ubuntu.id
+  instance_type   = var.instance_type
+  count           = 2
+  key_name        = "${var.name}-${random_pet.username.id}-KeyPair"
+  security_groups = aws_security_group.allow-all-security-group.id
+  root_block_device {
+    volume_size           = "50"
+    delete_on_termination = "true"
+  }
+  user_data = <<EOF
     #!/bin/bash
     cd /var/tmp/
     apt-get update -y
