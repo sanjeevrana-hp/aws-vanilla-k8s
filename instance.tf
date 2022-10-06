@@ -67,6 +67,16 @@ resource "aws_instance" "k8s" {
   instance_type = var.instance_type
   count         = 2
   key_name      = "${var.name}-${random_pet.username.id}-KeyPair"
+  user_data     = <<EOF
+    #!/bin/bash
+    cd /var/tmp/
+    apt-get update -y
+    apt-get install wget
+    wget https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/latest/install_master.sh
+    wget https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/latest/install_worker.sh
+    chmod 700 install_master.sh
+    chmod 700 install_worker.sh
+EOF
   tags = {
     Name           = var.host_names[count.index]
     DateOfCreation = local.tstmp
