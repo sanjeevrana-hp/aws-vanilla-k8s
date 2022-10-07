@@ -4,4 +4,3 @@ terraform.tfstate.backup
 .terraform.lock.hcl
 mykey-pair
 ansible/join-command
-ansible/inventory/*
