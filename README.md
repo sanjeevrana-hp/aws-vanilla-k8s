@@ -1,10 +1,10 @@
-# aws-vanilla-k8s
-1. deploy the two EC2 (kube-master & kube-worker) using the terraform
+**# aws-vanilla-k8s#**
+1. *deploy the two EC2 (kube-master & kube-worker) using the terraform*
 
-   terraform apply --auto-approve
+   <sub>terraform apply --auto-approve<sub>
 
-2. Run the below Ansible Playbooks
+2. *Run the below Ansible Playbooks*
  
-   ansible-playbook master-kubernet.yaml
+   <sub>ansible-playbook master-kubernet.yaml<sub>
 
-   ansible-playbook worker-kubernet.yaml
+   <sub>ansible-playbook worker-kubernet.yaml<sub>
