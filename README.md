@@ -20,7 +20,7 @@ Need the aws account, IAM user with privileges to deploy the EC2.
 
 Need Access and Secret Keys
 
-On the Workstation
+On the Workstation.:point_down:
 
 - Install the terraform
 - Install the python3, pip, python3-pip, and boto3
@@ -39,7 +39,7 @@ terraform init
 terraform apply --auto-approve
 ```
 
-2. Run the below Ansible Playbooks to install K8s
+2. Run the below Ansible Playbooks to install K8s. :ok_hand:
 ```python
 cd /terraform/ansible
 ansible-playbook master-kubernet.yaml
