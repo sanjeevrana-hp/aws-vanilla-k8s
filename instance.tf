@@ -78,8 +78,8 @@ resource "aws_instance" "k8s" {
 cd /var/tmp/
 apt-get update -y
 apt-get install wget
-wget https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/latest/install_master.sh
-wget https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/latest/install_worker.sh
+wget https://raw.githubusercontent.com/sanjeevrana-hp/aws-vanilla-k8s/main/install_master.sh
+wget https://raw.githubusercontent.com/sanjeevrana-hp/aws-vanilla-k8s/main/install_worker.sh
 chmod 700 install_master.sh
 chmod 700 install_worker.sh
 EOF
