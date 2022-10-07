@@ -88,3 +88,11 @@ EOF
     DateOfCreation = local.tstmp
   }
 }
+
+output "kube-server_public-ipaddr" {
+  value = aws_instance.k8s[0].public_dns
+}
+
+output "kube-worker_public-ipaddr" {
+  value = aws_instance.k8s[1].public_dns
+}
