@@ -1,12 +1,12 @@
 ---
-- hosts: master
+- hosts: kube_server
   user: ubuntu
   become: yes
-  become_user: root
-  become_method: sudo
   gather_facts: yes
 
+
   tasks:
+
       - name: run the initialization script
         command: /var/tmp/install_master.sh
 

@@ -1,5 +1,5 @@
 ---
-- hosts: worker
+- hosts: kube_worker
   user: ubuntu
   become: yes
   become_user: ubuntu
