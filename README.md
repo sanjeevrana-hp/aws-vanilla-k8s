@@ -5,16 +5,13 @@
 
 ## Documentation
 
-This code is to deploy the EC2 Ubuntu 20.04 on AWS Cloud through the terraform. After this we used the ansible playbooks to install the vanilla K8s cluster. 
+This code is to deploy the EC2 Ubuntu 20.04 on AWS Cloud through the terraform. After this we have to use the ansible playbooks to install the vanilla K8s cluster. 
 
-We used the dynamic inventory for ansible-playbook execution 
-using the plugin aws_ec2.
+We use the dynamic inventory for ansible-playbook execution using the plugin aws_ec2.
 
 Please pull the GitHub code "https://github.com/sanjeevrana-hp/aws-vanilla-k8s.git"
 
-Update the credentials in ~/.aws/credentials
-
-export the AWS access_key, secret_key and region.
+Update the credentials in ~/.aws/credentials, else export the AWS access_key, secret_key and region on the shell.
 
 
 ##  Pre Requisite
@@ -43,6 +40,7 @@ terraform apply --auto-approve
 
 2. Run the below Ansible Playbooks to install K8s
 ```python
+cd /terraform/ansible
 ansible-playbook master-kubernet.yaml
 ansible-playbook worker-kubernet.yaml
 ```
