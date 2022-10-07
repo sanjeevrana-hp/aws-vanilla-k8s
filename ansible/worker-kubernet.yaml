@@ -2,8 +2,6 @@
 - hosts: kube_worker
   user: ubuntu
   become: yes
-  become_user: ubuntu
-  become_method: sudo
   gather_facts: yes
 
   tasks:
