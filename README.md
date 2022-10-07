@@ -30,7 +30,8 @@ On the Workstation
 ## Installation
 
 Once the GitHub repository is cloned, and all the pre-requisites are done on the workstation then execute the below commands.
-1. deploy the two EC2 (kube-master & kube-worker) using the terraform
+
+1. deploy the two EC2 (kube-master & kube-worker) using the terraform. :cowboy_hat_face:
 
 ```bash
 cd /terraform
