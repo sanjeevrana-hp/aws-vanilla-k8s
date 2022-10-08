@@ -58,3 +58,8 @@ cd /terraform/
 cd /terraform/
 ./infra-k8.sh --delete
 ```
+
+
+To access the ec2, there is a keypair generated in the /terraform directory, so you can execute the below command. Public IP address for the instances will display at the end of the script.
+
+- ssh -i mykey-pair ubuntu@ec_ipaddress
