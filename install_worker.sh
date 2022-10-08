@@ -136,6 +136,12 @@ systemctl enable containerd
 systemctl restart containerd
 systemctl enable kubelet && systemctl start kubelet
 
+#### Install Pkgs for Longhorn installation requirement ####
+apt-get install open-iscsi -y
+modprobe iscsi_tcp
+systemctl enable iscsid
+systemctl start iscsid
+apt-get install nfs-common -y
 
 
 ### init k8s
@@ -148,3 +154,4 @@ echo
 echo "EXECUTE ON MASTER: kubeadm token create --print-join-command --ttl 0"
 echo "THEN RUN THE OUTPUT AS COMMAND HERE TO ADD AS WORKER"
 echo
+

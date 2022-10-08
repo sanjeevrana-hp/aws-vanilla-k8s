@@ -36,6 +36,11 @@ apt-get remove -y docker.io containerd kubelet kubeadm kubectl kubernetes-cni ||
 apt-get autoremove -y
 systemctl daemon-reload
 
+## helm Installation
+
+wget https://get.helm.sh/helm-v3.10.0-linux-amd64.tar.gz -P /var/tmp
+tar -xvzf /var/tmp/helm-v3.10.0-linux-amd64.tar.gz -C /var/tmp/
+mv /var/tmp/linux-amd64/helm /usr/local/bin/helm
 
 
 ### install podman
