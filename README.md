@@ -24,25 +24,37 @@ Need Access and Secret Keys
 On the Workstation.:point_down:
 
 - Install the terraform
-- Install the python3, pip, python3-pip, and boto3
-- Install the Ansible
+  ```python
+  https://learn.hashicorp.com/tutorials/terraform/install-cli
+  ```
 
+- Install the python3, pip, python3-pip, and boto3
+  ```python
+  apt-get install python3 -y
+  apt-get install python3-pip -y
+  pip3 install boto3
+  ```
+
+- Install the Ansible
+  ```python
+  apt-get update
+  apt-get install ansible -y
+  ```
 
 ## Installation
 
 Once the GitHub repository is cloned, and all the pre-requisites are done on the workstation then execute the below commands.
 
-1. deploy the two EC2 (kube-master & kube-worker) using the terraform. :cowboy_hat_face:
 
-```bash
-cd /terraform
-terraform init
-terraform apply --auto-approve
+1. The below script will create the two EC2 (kube-master & kube-worker) using the terraform, and install the k8s using the ansible-playbook :ok_hand:
+```python
+cd /terraform/
+./infra-k8.sh --create
 ```
 
-2. Run the below Ansible Playbooks to install K8s. :ok_hand:
+2. This will delete the infrastructure :cowboy_hat_face:
+
 ```python
-cd /terraform/ansible
-ansible-playbook master-kubernet.yaml
-ansible-playbook worker-kubernet.yaml
+cd /terraform/
+./infra-k8.sh --delete
 ```
