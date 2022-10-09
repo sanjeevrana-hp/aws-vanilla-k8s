@@ -70,7 +70,7 @@ resource "aws_instance" "k8s" {
   key_name        = "${var.name}-${random_pet.username.id}-KeyPair"
   security_groups = ["${aws_security_group.allow-all-security-group.name}"]
   root_block_device {
-    volume_size           = "50"
+    volume_size           = "100"
     delete_on_termination = "true"
   }
   user_data = <<EOF
