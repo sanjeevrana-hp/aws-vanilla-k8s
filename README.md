@@ -33,6 +33,7 @@ On the Workstation.:point_down:
   apt-get install python3 -y
   apt-get install python3-pip -y
   pip3 install boto3
+  ansible-galaxy collection install community.kubernetes
   ```
 
 - Install the Ansible

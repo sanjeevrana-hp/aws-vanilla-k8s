@@ -1,0 +1,50 @@
+---
+- hosts: kube_server
+  user: ubuntu
+  become: yes
+  gather_facts: yes
+
+
+  tasks:
+
+    - name: Apply cert-manager manifest to the cluster.
+      command: "{{ item }}"
+      with_items:
+      - kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.2/cert-manager.yaml
+      - kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.2/cert-manager.crds.yaml  
+
+    - name: Add a postgres-operator repository
+      kubernetes.core.helm_repository:
+         name: postgres-operator
+         repo_url: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
+
+    - name: Update the Helm Repo's
+      command:  helm repo update
+
+    - name: Install Postgres Chart
+      kubernetes.core.helm:
+        name: postgres-operator
+        chart_ref: postgres-operator/postgres-operator
+        namespace: default
+        values:
+           configKubernetes.spilo_runasuser: 101
+           configKubernetes.spilo_runasgroup: 103 
+           configKubernetes.spilo_fsgroup: 103
+
+    - name: Add a postgres-operator repository
+      kubernetes.core.helm_repository:
+         name: msr
+         repo_url: https://registry.mirantis.com/charts/msr/msr
+
+    - name: Update the Helm Repo's
+      command:  helm repo update
+
+    - name: Install the MSR
+      kubernetes.core.helm:
+        name: msr
+        namespace: default
+        chart_ref: msr/msr
+        chart_version: 1.0.4
+
+    - name: Change the svc to NodePort
+      command: kubectl patch svc msr --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"},{"op":"replace","path":"/spec/ports/1/nodePort","value":32529}]'
