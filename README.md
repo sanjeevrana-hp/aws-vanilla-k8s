@@ -53,7 +53,7 @@ cd /terraform/
 ./infra-k8.sh --create-cluster
 ```
 
-2. This will create the two EC2 (kube-master & kube-worker) using the terraform, and install the k8s using the ansible-playbook, and the configure the storagecalss and install Mirantis MSRv3
+2. This will create the two EC2 (kube-master & kube-worker) using the terraform, and install the k8s using the ansible-playbook, and the configure the storagecalss and install Mirantis MSRv3 :sunglasses:
 
 ```python
 cd /terraform/
