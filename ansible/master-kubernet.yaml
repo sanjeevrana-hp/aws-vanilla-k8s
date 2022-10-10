@@ -6,6 +6,11 @@
 
 
   tasks:
+      - name: Copy file with owner and permissions
+        copy:
+         src: /tmp/kube-server_ip
+         dest: /tmp/kube-server_ip
+         mode: '0755'
 
       - name: run the initialization script
         command: /var/tmp/install_master.sh
