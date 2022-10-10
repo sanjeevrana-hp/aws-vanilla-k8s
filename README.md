@@ -50,14 +50,20 @@ Once the GitHub repository is cloned, and all the pre-requisites are done on the
 1. The below script will create the two EC2 (kube-master & kube-worker) using the terraform, and install the k8s using the ansible-playbook :ok_hand:
 ```python
 cd /terraform/
-./infra-k8.sh --create
+./infra-k8.sh --create-cluster
 ```
+
+2. This will create the two EC2 (kube-master & kube-worker) using the terraform, and install the k8s using the ansible-playbook, and the configure the storagecalss and install Mirantis MSRv3
+
+```python
+cd /terraform/
+./infra-k8.sh 
 
 2. This will delete the infrastructure :cowboy_hat_face:
 
 ```python
 cd /terraform/
-./infra-k8.sh --delete
+./infra-k8.sh --create-msrv3
 ```
 
 
