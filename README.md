@@ -69,9 +69,11 @@ cd /terraform/
 
 4. To get the correct options
 ```python
-   ./infra-k8.sh -h
+./infra-k8.sh -h
+
 here's the options:
-------------------------
+========================
+
 --create-cluster  create the infra and install the k8s.
 --delete-cluster  delete the k8s cluster with infra.
 --create-msrv3  create the infra,k8s cluster along with MSRv3.
