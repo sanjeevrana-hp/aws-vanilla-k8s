@@ -5,6 +5,7 @@ case $1 in
 		cd /terraform
                 terraform init
                 terraform apply --auto-approve
+		terraform state show aws_instance.k8s[0] |grep public_ip|tail -1|cut -d '"' -f2 > /tmp/kube-server_ip
 		sleep 45
 		cd /terraform/ansible
                 ansible-playbook master-kubernet.yaml
