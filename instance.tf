@@ -89,10 +89,11 @@ EOF
   }
 }
 
-output "kube-server_public-ipaddr" {
+output "kube-server_public-dnsaddr" {
   value = aws_instance.k8s[0].public_dns
 }
 
-output "kube-worker_public-ipaddr" {
+
+output "kube-worker_public-dnsaddr" {
   value = aws_instance.k8s[1].public_dns
 }
