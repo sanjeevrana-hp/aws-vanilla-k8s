@@ -33,6 +33,9 @@ case $1 in
 		ansible-playbook msrv3-install.yaml
 		cd /terraform
 		terraform output
+		public_ip=`terraform state show aws_instance.k8s[0] |grep public_dns |cut -d '"' -f2`
+                echo "MSR URL ->  https://$public_ip:32529"
+                echo "Storage URL ->  https://$public_ip:32528"
                 ;;
 
         "--delete-cluster")
@@ -40,19 +43,26 @@ case $1 in
 		cd /terraform
                 terraform destroy --auto-approve
                 ;;
-        *)
-                echo "Not a valid argument"
-                echo
-                ;;
 esac
+
 
 Help()
 {
    echo "here's the options:"
-   echo "--create-cluster create the infra and install the k8s."
-   echo "--delete-cluster     delete the k8s cluster with infra."
-   echo "--create-msrv3 create the infra,k8s cluster along with MSRv3."
+   echo "------------------------"
+   echo "--create-cluster  create the infra and install the k8s."
+   echo "--delete-cluster  delete the k8s cluster with infra."
+   echo "--create-msrv3  create the infra,k8s cluster along with MSRv3."
+   echo
 }
 
-Help
-echo "Thanks for searching the options !!"
+while getopts ":h" option; do
+   case $option in
+      h) # display Help
+         Help
+         exit;;
+     \?) # incorrect option
+         echo "Error: Invalid option"
+         exit;;
+   esac
+done
