@@ -57,24 +57,25 @@ cd /terraform/
 
 ```python
 cd /terraform/
-./infra-k8.sh 
+./infra-k8.sh --create-msrv3
 ```
 
 3. This will delete the infrastructure :cowboy_hat_face:
 
 ```python
 cd /terraform/
-./infra-k8.sh --create-msrv3
+./infra-k8.sh --delete-cluster
 ```
 
 4. To get the correct options
-  - ./infra-k8.sh -h
+```python
+   ./infra-k8.sh -h
 here's the options:
 ------------------------
 --create-cluster  create the infra and install the k8s.
 --delete-cluster  delete the k8s cluster with infra.
 --create-msrv3  create the infra,k8s cluster along with MSRv3.
-
+```
 
 To access the ec2, there is a keypair generated in the /terraform directory, so you can execute the below command. Public IP address for the instances will display at the end of the script.
 
