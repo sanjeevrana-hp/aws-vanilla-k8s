@@ -19,15 +19,18 @@ case $1 in
                 terraform init
                 terraform apply --auto-approve
                 sleep 45
+		echo "Installing the K8s"
                 cd /terraform/ansible
                 ansible-playbook master-kubernet.yaml
                 ansible-playbook worker-kubernet.yaml
-		sleep 15
+		sleep 20
+		echo "Installing the StorageClasses"
 		cd /terraform/ansible/storage-classes
 		ansible-playbook storage-classes.yaml
-		sleep 15
+		sleep 120
+		echo "Installing the MSRv3"
 		cd /terraform/ansible/MSRv3
-		ansible-playbook  msrv3-install.yaml
+		ansible-playbook msrv3-install.yaml
 		cd /terraform
 		terraform output
                 ;;

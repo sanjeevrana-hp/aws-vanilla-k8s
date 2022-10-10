@@ -31,7 +31,12 @@
            configKubernetes.spilo_runasgroup: 103 
            configKubernetes.spilo_fsgroup: 103
 
-    - name: Add a postgres-operator repository
+    - name: Sleep for 45 seconds
+      wait_for:
+         delay: 45
+         timeout: 0
+
+    - name: Add a msr repository
       kubernetes.core.helm_repository:
          name: msr
          repo_url: https://registry.mirantis.com/charts/msr/msr
@@ -42,9 +47,10 @@
     - name: Install the MSR
       kubernetes.core.helm:
         name: msr
-        namespace: default
         chart_ref: msr/msr
         chart_version: 1.0.4
+        namespace: msr
+        create_namespace: yes
 
     - name: Change the svc to NodePort
-      command: kubectl patch svc msr --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"},{"op":"replace","path":"/spec/ports/1/nodePort","value":32529}]'
+      command: kubectl patch svc msr -n msr --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"},{"op":"replace","path":"/spec/ports/1/nodePort","value":32529}]'
