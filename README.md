@@ -58,8 +58,9 @@ cd /terraform/
 ```python
 cd /terraform/
 ./infra-k8.sh 
+```
 
-2. This will delete the infrastructure :cowboy_hat_face:
+3. This will delete the infrastructure :cowboy_hat_face:
 
 ```python
 cd /terraform/
