@@ -50,6 +50,7 @@ private_key_file = /terraform/mykey-pair
 remote_tmp = $HOME/.ansible/tmp/
 user = ubuntu
 sudo_user = root
+enable_plugins = aws_ec2
 ```
 ## Installation
 
