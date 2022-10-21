@@ -41,7 +41,16 @@ On the Workstation.:point_down:
   apt-get update
   apt-get install ansible -y
   ```
-
+- Put the changes in /etc/ansible/ansible.cfg
+```python
+inventory       = /terraform/ansible/inventory/aws_ec2.yaml
+host_key_checking = False
+pipelining = True
+private_key_file = /terraform/mykey-pair
+remote_tmp = $HOME/.ansible/tmp/
+user = ubuntu
+sudo_user = root
+```
 ## Installation
 
 Once the GitHub repository is cloned, and all the pre-requisites are done on the workstation then execute the below commands.
