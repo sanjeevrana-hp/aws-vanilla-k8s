@@ -21,11 +21,14 @@ Need the aws account, IAM user with privileges to deploy the EC2.
 
 Need Access and Secret Keys
 
-On the Workstation.:point_down:
+On the Workstation (ubuntu 20.04).:point_down:
 
 - Install the terraform
   ```python
   https://learn.hashicorp.com/tutorials/terraform/install-cli
+  wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list 
+  apt update && apt install terraform
   ```
 
 - Install the python3, pip, python3-pip, and boto3
