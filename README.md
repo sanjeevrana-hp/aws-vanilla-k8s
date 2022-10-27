@@ -58,8 +58,8 @@ enable_plugins = aws_ec2
 
 ## Else, pull the docker image and then run the ./infra-k8.sh 
 ```python
-docker run -it -d sanjeevranahp/myinfra:1.0
-docker exec -it c802c191bae1 bash
+docker run -it -d --name mysandbox sanjeevranahp/myinfra:1.0
+docker exec -it mysandbox bash
 cd /terraform
 ./infra-k8.sh 
 ```
