@@ -65,9 +65,9 @@ cd /terraform
 ```
 options
 
---create-cluster  create the infra and install the k8s.
---delete-cluster  delete the k8s cluster with infra.
---create-msrv3  create the infra,k8s cluster along with MSRv3.
+- --create-cluster  create the infra and install the k8s.
+- --delete-cluster  delete the k8s cluster with infra.
+- --create-msrv3  create the infra,k8s cluster along with MSRv3.
 
 ## Installation
 
