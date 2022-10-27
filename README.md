@@ -56,7 +56,7 @@ sudo_user = root
 enable_plugins = aws_ec2
 ```
 
-## Else pull the docker image and then run the ./infra-k8.sh 
+## Else, pull the docker image and then run the ./infra-k8.sh 
 ```python
 docker run -it -d sanjeevranahp/myinfra:1.0
 docker exec -it c802c191bae1 bash
@@ -64,6 +64,7 @@ cd /terraform
 ./infra-k8.sh 
 ```
 options
+
 --create-cluster  create the infra and install the k8s.
 --delete-cluster  delete the k8s cluster with infra.
 --create-msrv3  create the infra,k8s cluster along with MSRv3.
