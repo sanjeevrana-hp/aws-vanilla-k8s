@@ -17,8 +17,9 @@ RUN apt-get update && apt-get install -y \
     python3-pip
 
 #Install bot3 and community.kubernetes
-RUN pip3 install boto3
-RUN python3.8 -m pip install ansible && /usr/local/bin/ansible-galaxy collection install community.kubernetes
+RUN pip3 install boto3 && \
+    python3.8 -m pip install ansible && \
+    /usr/local/bin/ansible-galaxy collection install community.kubernetes
 
 
 # Installing terraform
