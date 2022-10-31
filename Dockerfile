@@ -18,8 +18,7 @@ RUN apt-get update && apt-get install -y \
 
 #Install bot3 and community.kubernetes
 RUN pip3 install boto3 && \
-    python3.8 -m pip install ansible && \
-    /usr/local/bin/ansible-galaxy collection install community.kubernetes
+    python3.8 -m pip install ansible
 
 
 # Installing terraform
@@ -28,7 +27,9 @@ RUN wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/s
 
 
 # Clone the repository, move the code and then delete unwanted directory
-RUN git clone "https://github.com/sanjeevrana-hp/aws-vanilla-k8s.git" && mv /terraform/aws-vanilla-k8s/* /terraform && rm -rf /terraform/aws-vanilla-k8s/
+RUN git clone "https://github.com/sanjeevrana-hp/aws-vanilla-k8s.git" && \
+    mv /terraform/aws-vanilla-k8s/* /terraform && \
+    rm -rf /terraform/aws-vanilla-k8s/
 
 # Change the default /etc/ansible/ansible.cfg
 COPY ansible.cfg /etc/ansible/ansible.cfg
