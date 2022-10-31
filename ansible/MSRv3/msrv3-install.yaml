@@ -13,6 +13,11 @@
       - kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.2/cert-manager.yaml
       - kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.2/cert-manager.crds.yaml  
 
+    - name: Sleep for 25 seconds
+      wait_for:
+         delay: 25
+         timeout: 0
+
     - name: Add a postgres-operator repository
       kubernetes.core.helm_repository:
          name: postgres-operator
@@ -41,3 +46,8 @@
 
     - name: Change the svc to NodePort
       command: kubectl patch svc msr --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"},{"op":"replace","path":"/spec/ports/1/nodePort","value":32529}]'
+
+    - name: Sleep for 60 seconds
+      wait_for:
+         delay: 60
+         timeout: 0

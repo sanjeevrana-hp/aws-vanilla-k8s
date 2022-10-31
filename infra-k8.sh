@@ -23,7 +23,7 @@ case $1 in
                 cd /terraform/ansible
                 ansible-playbook master-kubernet.yaml
                 ansible-playbook worker-kubernet.yaml
-		sleep 20
+		sleep 30
 		echo "Installing the StorageClasses"
 		cd /terraform/ansible/storage-classes
 		ansible-playbook storage-classes.yaml
