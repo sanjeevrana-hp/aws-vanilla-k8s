@@ -20,6 +20,11 @@
         namespace: longhorn-system
         chart_ref: longhorn/longhorn
         create_namespace: yes
+        values:
+          defaultSettings:
+            defaultReplicaCount: 1
+          persistence:
+            defaultClassReplicaCount: 1
 
     - name: Change the svc to NodePort
       command: kubectl patch svc longhorn-frontend -n longhorn-system --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"},{"op":"replace","path":"/spec/ports/0/nodePort","value":32528}]'
