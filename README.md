@@ -56,7 +56,7 @@ sudo_user = root
 enable_plugins = aws_ec2
 ```
 
-## Else, pull the docker image and then run the ./infra-k8.sh 
+## Else, pull the docker image and then run the ./infra-k8.sh ( In Progess, not tested )
 ```python
 docker run -it -d --name mysandbox sanjeevranahp/myinfra:1.0
 docker exec -it mysandbox bash
