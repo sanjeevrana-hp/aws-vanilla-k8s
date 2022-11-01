@@ -63,6 +63,8 @@ docker exec -it mysandbox bash
 cd /terraform
 ./infra-k8.sh 
 ```
+Before run the ./infra-k8.sh options, export the AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_SESSION_TOKEN (optional if required)
+
 options
 
 - --create-cluster  create the infra and install the k8s.
