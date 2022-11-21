@@ -93,7 +93,6 @@ cd /terraform/
 3. This will delete the infrastructure :cowboy_hat_face:
 
 ```python
-cd /terraform/
 ./infra-k8.sh --delete-cluster
 ```
 
