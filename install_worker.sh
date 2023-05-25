@@ -2,14 +2,12 @@
 
 # Source: http://kubernetes.io/docs/getting-started-guides/kubeadm
 
-set -e
-
-KUBE_VERSION=1.24.3
+KUBE_VERSION=1.26.1
 
 
 ### setup terminal
-apt-get update
-apt-get install -y bash-completion binutils
+apt-get --allow-unauthenticated update
+apt-get --allow-unauthenticated install -y bash-completion binutils
 echo 'colorscheme ron' >> ~/.vimrc
 echo 'set tabstop=2' >> ~/.vimrc
 echo 'set shiftwidth=2' >> ~/.vimrc
@@ -38,8 +36,8 @@ systemctl daemon-reload
 
 ### install podman
 . /etc/os-release
-echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/testing/xUbuntu_${VERSION_ID}/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:testing.list
-curl -L "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/testing/xUbuntu_${VERSION_ID}/Release.key" | sudo apt-key add -
+echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:testing.list
+curl -L "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/Release.key" | sudo apt-key add -
 apt-get update -qq
 apt-get -qq -y install podman cri-tools containers-common
 rm /etc/apt/sources.list.d/devel:kubic:libcontainers:testing.list
@@ -51,12 +49,21 @@ EOF
 
 ### install packages
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-cat <<EOF > /etc/apt/sources.list.d/kubernetes.list
-deb http://apt.kubernetes.io/ kubernetes-xenial main
-EOF
-apt-get update
-apt-get install -y docker.io containerd kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00 kubernetes-cni
+mkdir -p /etc/apt/keyrings
+echo "deb [trusted=yes] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+apt-get --allow-unauthenticated update
+apt-get --allow-unauthenticated install -y docker.io containerd kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00 kubernetes-cni
 apt-mark hold kubelet kubeadm kubectl kubernetes-cni
+
+
+### install containerd 1.6 over apt-installed-version
+wget https://github.com/containerd/containerd/releases/download/v1.6.12/containerd-1.6.12-linux-amd64.tar.gz
+tar xvf containerd-1.6.12-linux-amd64.tar.gz
+systemctl stop containerd
+mv bin/* /usr/bin
+rm -rf bin containerd-1.6.12-linux-amd64.tar.gz
+systemctl unmask containerd
+systemctl start containerd
 
 
 ### containerd
@@ -136,12 +143,6 @@ systemctl enable containerd
 systemctl restart containerd
 systemctl enable kubelet && systemctl start kubelet
 
-#### Install Pkgs for Longhorn installation requirement ####
-apt-get install open-iscsi -y
-modprobe iscsi_tcp
-systemctl enable iscsid
-systemctl start iscsid
-apt-get install nfs-common -y
 
 
 ### init k8s
@@ -154,4 +155,3 @@ echo
 echo "EXECUTE ON MASTER: kubeadm token create --print-join-command --ttl 0"
 echo "THEN RUN THE OUTPUT AS COMMAND HERE TO ADD AS WORKER"
 echo
-
