@@ -1,17 +1,13 @@
 #!/bin/sh
 
+# Source: http://kubernetes.io/docs/getting-started-guides/kubeadm
 
-### Source: http://kubernetes.io/docs/getting-started-guides/kubeadm
-
-set -e
-
-
-KUBE_VERSION=1.24.3
+KUBE_VERSION=1.26.1
 
 
 ### setup terminal
-apt-get update
-apt-get install -y bash-completion binutils
+apt-get --allow-unauthenticated update
+apt-get --allow-unauthenticated install -y bash-completion binutils
 echo 'colorscheme ron' >> ~/.vimrc
 echo 'set tabstop=2' >> ~/.vimrc
 echo 'set shiftwidth=2' >> ~/.vimrc
@@ -36,17 +32,12 @@ apt-get remove -y docker.io containerd kubelet kubeadm kubectl kubernetes-cni ||
 apt-get autoremove -y
 systemctl daemon-reload
 
-## helm Installation
-
-wget https://get.helm.sh/helm-v3.10.0-linux-amd64.tar.gz -P /var/tmp
-tar -xvzf /var/tmp/helm-v3.10.0-linux-amd64.tar.gz -C /var/tmp/
-mv /var/tmp/linux-amd64/helm /usr/local/bin/helm
 
 
 ### install podman
 . /etc/os-release
-echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/testing/xUbuntu_${VERSION_ID}/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:testing.list
-curl -L "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/testing/xUbuntu_${VERSION_ID}/Release.key" | sudo apt-key add -
+echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:testing.list
+curl -L "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/Release.key" | sudo apt-key add -
 apt-get update -qq
 apt-get -qq -y install podman cri-tools containers-common
 rm /etc/apt/sources.list.d/devel:kubic:libcontainers:testing.list
@@ -58,12 +49,20 @@ EOF
 
 ### install packages
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-cat <<EOF > /etc/apt/sources.list.d/kubernetes.list
-deb http://apt.kubernetes.io/ kubernetes-xenial main
-EOF
-apt-get update
-apt-get install -y docker.io containerd kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00 kubernetes-cni
+echo "deb [trusted=yes] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+apt-get --allow-unauthenticated update
+apt-get --allow-unauthenticated install -y docker.io containerd kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00 kubernetes-cni
 apt-mark hold kubelet kubeadm kubectl kubernetes-cni
+
+
+### install containerd 1.6 over apt-installed-version
+wget https://github.com/containerd/containerd/releases/download/v1.6.12/containerd-1.6.12-linux-amd64.tar.gz
+tar xvf containerd-1.6.12-linux-amd64.tar.gz
+systemctl stop containerd
+mv bin/* /usr/bin
+rm -rf bin containerd-1.6.12-linux-amd64.tar.gz
+systemctl unmask containerd
+systemctl start containerd
 
 
 ### containerd
@@ -152,13 +151,15 @@ mkdir -p ~/.kube
 sudo cp -i /etc/kubernetes/admin.conf ~/.kube/config
 
 ### CNI
-kubectl apply -f https://raw.githubusercontent.com/sanjeevrana-hp/aws-vanilla-k8s/main/calico.yaml
+kubectl apply -f https://raw.githubusercontent.com/killer-sh/cks-course-environment/master/cluster-setup/calico.yaml
+
 
 # etcdctl
 ETCDCTL_VERSION=v3.5.1
-ETCDCTL_VERSION_FULL=etcd-${ETCDCTL_VERSION}-linux-amd64
+ETCDCTL_ARCH=$(dpkg --print-architecture)
+ETCDCTL_VERSION_FULL=etcd-${ETCDCTL_VERSION}-linux-${ETCDCTL_ARCH}
 wget https://github.com/etcd-io/etcd/releases/download/${ETCDCTL_VERSION}/${ETCDCTL_VERSION_FULL}.tar.gz
-tar xzf ${ETCDCTL_VERSION_FULL}.tar.gz
+tar xzf ${ETCDCTL_VERSION_FULL}.tar.gz ${ETCDCTL_VERSION_FULL}/etcdctl
 mv ${ETCDCTL_VERSION_FULL}/etcdctl /usr/bin/
 rm -rf ${ETCDCTL_VERSION_FULL} ${ETCDCTL_VERSION_FULL}.tar.gz
 
