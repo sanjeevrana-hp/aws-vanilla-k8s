@@ -56,12 +56,6 @@ apt-get --allow-unauthenticated install -y docker.io containerd kubelet=${KUBE_V
 apt-mark hold kubelet kubeadm kubectl kubernetes-cni
 
 
-## helm Installation
-
-wget https://get.helm.sh/helm-v3.10.0-linux-amd64.tar.gz -P /var/tmp
-tar -xvzf /var/tmp/helm-v3.10.0-linux-amd64.tar.gz -C /var/tmp/
-mv /var/tmp/linux-amd64/helm /usr/local/bin/helm
-
 ### install containerd 1.6 over apt-installed-version
 wget https://github.com/containerd/containerd/releases/download/v1.6.12/containerd-1.6.12-linux-amd64.tar.gz
 tar xvf containerd-1.6.12-linux-amd64.tar.gz
@@ -150,6 +144,12 @@ systemctl restart containerd
 systemctl enable kubelet && systemctl start kubelet
 
 
+#### Install Pkgs for Longhorn installation requirement ####
+apt-get install open-iscsi -y
+modprobe iscsi_tcp
+systemctl enable iscsid
+systemctl start iscsid
+apt-get install nfs-common -y
 
 ### init k8s
 kubeadm reset -f
